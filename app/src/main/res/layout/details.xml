@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:backgroundTint="@android:color/darker_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 최상단 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/moviePoster"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sample_poster" />
+
+            <TextView
+                android:id="@+id/movieTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/moviePoster"
+                android:layout_marginStart="16dp"
+                android:layout_alignTop="@id/moviePoster"
+                android:text="Escape from Tarkov. Raid"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/movieYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/moviePoster"
+                android:layout_below="@id/movieTitle"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="출시: 2024"
+                android:textSize="16sp"
+                 />
+
+            <TextView
+                android:id="@+id/movieGenre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/moviePoster"
+                android:layout_below="@id/movieYear"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="장르: 액션, 어드벤처"
+                android:textSize="16sp"
+                />
+        </RelativeLayout>
+
+        <!-- Where to Watch -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <!-- 제목 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Where to Watch"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- 플랫폼 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:id="@+id/platformNetflix"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/netflix_logo"
+                        android:contentDescription="Netflix" />
+
+                    <ImageView
+                        android:id="@+id/platformPrime"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/prime_logo"
+                        android:contentDescription="Amazon Prime" />
+
+                    <ImageView
+                        android:id="@+id/platformHulu"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/hulu_logo"
+                        android:contentDescription="Hulu" />
+                </LinearLayout>
+
+                <!-- 예비 텍스트 ?-->
+                <TextView
+                    android:id="@+id/whereToWatchLocations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Available in: USA, Canada, UK"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:gravity="center" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- 정보섹션 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Overview"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/movieOverview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Russian action film based on the play Escape from Tarkov. The story deals with the struggle of private military companies on the territory of the city of Tarkov."
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:lineSpacingExtra="4dp" />
+
+        <!-- 배급사 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distributors"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/movieDistributors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distributed by: Warner Bros., Universal Pictures"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
+
+        <!-- 출연진 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="출연진"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp" />
+
+        <RecyclerView
+            android:id="@+id/actorsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+        <!-- 리뷰 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="리뷰"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="4dp" />
+
+        <RecyclerView
+            android:id="@+id/reviewsList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+</ScrollView>
