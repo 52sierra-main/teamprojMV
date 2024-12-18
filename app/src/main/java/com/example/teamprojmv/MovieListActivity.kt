@@ -2,6 +2,7 @@ package com.example.teamprojmv
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.GridView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class MovieListActivity : AppCompatActivity() {
         // 어댑터 설정
         val adapter = MyAdapter(this, items)
         gridView.adapter = adapter
+        Log.d("MovieListActivity", "Items: ${items.size}")
     }
     private fun generateItemList(count: Int): List<GridItem> {
         val itemList = mutableListOf<GridItem>()
