@@ -74,81 +74,11 @@
                 />
         </RelativeLayout>
 
-        <!-- Where to Watch -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="@android:color/white">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <!-- 제목 -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Where to Watch"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp" />
-
-                <!-- 플랫폼 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginBottom="8dp">
-
-                    <ImageView
-                        android:id="@+id/platformNetflix"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/netflix_logo"
-                        android:contentDescription="Netflix" />
-
-                    <ImageView
-                        android:id="@+id/platformPrime"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginEnd="16dp"
-                        android:src="@drawable/prime_logo"
-                        android:contentDescription="Amazon Prime" />
-
-                    <ImageView
-                        android:id="@+id/platformHulu"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/hulu_logo"
-                        android:contentDescription="Hulu" />
-                </LinearLayout>
-
-                <!-- 예비 텍스트 ?-->
-                <TextView
-                    android:id="@+id/whereToWatchLocations"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Available in: USA, Canada, UK"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"
-                    android:gravity="center" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-
         <!-- 정보섹션 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Overview"
+            android:text="줄거리"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="8dp"
@@ -167,7 +97,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Distributors"
+            android:text="제작사"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
@@ -190,17 +120,39 @@
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/director"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="감독:"
+            android:textSize="16sp"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/actors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="배우1, 배우2 ...."
+            android:textSize="16sp"
+            android:textColor="@color/black" />
 
 
         <!-- 리뷰 -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="리뷰"
+            android:text="키워드"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp" />
+        <TextView
+            android:id="@+id/keywords"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="키워드1, 키워드2, ...."
+            android:textSize="16sp"
+            android:textColor="@color/black" />
 
 
     </LinearLayout>

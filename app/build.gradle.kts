@@ -39,6 +39,10 @@ android {
 
 dependencies {
 
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation ("org.json:json:20211205")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
