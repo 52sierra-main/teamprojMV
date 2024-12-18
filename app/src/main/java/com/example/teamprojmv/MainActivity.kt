@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.CalendarView
+import android.widget.GridView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.teamprojmv.databinding.ActivityMainBinding
@@ -36,6 +37,18 @@ class MainActivity : AppCompatActivity() {
 
         binding.currentDateTime.text = "${dayTime.year}년 ${dayTime.monthValue}월 ${dayTime.dayOfMonth}일"
         Log.d("calendar", "${binding.calendar.date}")
+
+        val movieGridView: GridView = binding.gridView
+        val items = generateItemList(20) // Generate a list of 20 movies
+        val adapter = MyAdapter(this, items)
+        movieGridView.adapter = adapter
+    }
+    private fun generateItemList(count: Int): List<GridItem> {
+        val itemList = mutableListOf<GridItem>()
+        for (i in 1..count) {
+            itemList.add(GridItem("Title $i", "https://via.placeholder.com/150?text=Image+$i"))
+        }
+        return itemList
     }
 }
 
