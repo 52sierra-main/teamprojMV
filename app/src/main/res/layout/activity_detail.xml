@@ -16,16 +16,17 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="37dp"
             android:background="?attr/colorPrimary"
             app:navigationIcon="@drawable/back"
-            app:title="Movie Details"
+            app:title="세부정보"
             app:titleTextColor="@android:color/white" />
 
         <!-- 최상단 -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:paddingBottom="16dp">
 
             <ImageView

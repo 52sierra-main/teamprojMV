@@ -14,15 +14,16 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        // detail info?
+        val title = intent.getStringExtra("title") ?: "Unknown Title"
+        val imageUrl = intent.getStringExtra("imageUrl") ?: ""
+
         // Back
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        // detail info?
-        val title = intent.getStringExtra("title") ?: "Unknown Title"
-        val imageUrl = intent.getStringExtra("imageUrl") ?: ""
+        supportActionBar?.title = title
 
         // Reference Views
         val titleView: TextView = findViewById(R.id.movieTitle)
