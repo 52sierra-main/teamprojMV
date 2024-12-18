@@ -1,6 +1,7 @@
 package com.example.teamprojmv
 
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -38,11 +39,23 @@ class MainActivity : AppCompatActivity() {
         binding.currentDateTime.text = "${dayTime.year}년 ${dayTime.monthValue}월 ${dayTime.dayOfMonth}일"
         Log.d("calendar", "${binding.calendar.date}")
 
+        //그리드뷰 채우기
         val movieGridView: GridView = binding.gridView
         val items = generateItemList(20) // Generate a list of 20 movies
         val adapter = MyAdapter(this, items)
         movieGridView.adapter = adapter
+
+        //그리드 클릭 리스너
+        movieGridView.setOnItemClickListener { _, _, position, _ ->
+            val selectedItem = items[position]
+            val intent = Intent(this, DetailActivity::class.java).apply {
+                putExtra("title", selectedItem.title)
+                putExtra("imageUrl", selectedItem.imageUrl)
+            }
+            startActivity(intent)
+        }
     }
+    //옆 파일에서 가져온 생성기
     private fun generateItemList(count: Int): List<GridItem> {
         val itemList = mutableListOf<GridItem>()
         for (i in 1..count) {
