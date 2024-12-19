@@ -35,7 +35,7 @@ class MovieListActivity : AppCompatActivity() {
     private fun generateItemList(count: Int): List<GridItem> {
         val itemList = mutableListOf<GridItem>()
         for (i in 1..count) {
-            itemList.add(GridItem("Title $i", "https://via.placeholder.com/150?text=Image+$i"))
+            itemList.add(GridItem("Title $i", "https://via.placeholder.com/150?text=Image+$i", ""))
         }
         return itemList
     }

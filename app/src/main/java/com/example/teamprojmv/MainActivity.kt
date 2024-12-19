@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("BoxOffice", "Movies Loaded: ${movies.size}")
 
                 val items = movies.map { movie ->
-                    GridItem(movie.movieNm, "https://via.placeholder.com/150?text=${movie.movieNm}")
+                    GridItem(movie.movieNm, "https://via.placeholder.com/150?text=${movie.movieNm}", movie.movieCd)
+
                 }
 
                 // GridView 채우기
@@ -71,8 +72,9 @@ class MainActivity : AppCompatActivity() {
                 movieGridView.setOnItemClickListener { _, _, position, _ ->
                     val selectedItem = items[position]
                     val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
-                        putExtra("title", selectedItem.title)
-                        putExtra("imageUrl", selectedItem.imageUrl)
+                        putExtra("movieCd", selectedItem.movieCd) // Pass movie code
+                        putExtra("title", selectedItem.title) // Pass title for display
+                        putExtra("imageUrl", selectedItem.imageUrl) // Pass placeholder image URL
                     }
                     startActivity(intent)
                 }

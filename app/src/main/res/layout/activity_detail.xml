@@ -57,7 +57,7 @@
                 android:layout_below="@id/movieTitle"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="출시: 출시연도"
+                android:text="출시: 불러오기 실패"
                 android:textSize="16sp"
                  />
 
@@ -69,7 +69,7 @@
                 android:layout_below="@id/movieYear"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="장르: 영화 장르"
+                android:text="장르: 없음"
                 android:textSize="16sp"
                 />
         </RelativeLayout>
@@ -88,7 +88,7 @@
             android:id="@+id/movieOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="영화 줄거리에 대한 간략한 설명"
+            android:text="줄거리 정보 없음"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:lineSpacingExtra="4dp" />
@@ -107,7 +107,7 @@
             android:id="@+id/movieDistributors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="제작회사명"
+            android:text="불러오기 실패"
             android:textSize="16sp"
             android:textColor="@color/black" />
 
@@ -124,7 +124,7 @@
             android:id="@+id/director"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="감독:"
+            android:text="감독: 불러오기 실패"
             android:textSize="16sp"
             android:layout_marginBottom="4dp"
             android:textColor="@color/black" />
@@ -132,7 +132,7 @@
             android:id="@+id/actors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="배우1, 배우2 ...."
+            android:text=""
             android:textSize="16sp"
             android:textColor="@color/black" />
 
@@ -150,7 +150,7 @@
             android:id="@+id/keywords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="키워드1, 키워드2, ...."
+            android:text="키워드 정보 없음"
             android:textSize="16sp"
             android:textColor="@color/black" />
 

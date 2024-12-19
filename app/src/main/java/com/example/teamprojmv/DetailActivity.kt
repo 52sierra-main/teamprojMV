@@ -18,23 +18,28 @@ import java.net.URLEncoder
 
 class DetailActivity : AppCompatActivity() {
 
-    private val apiKey = "62b5b6731f5435fee627106b33ee37bc" // 더미
+    private val apiKey = "10ef2c98522e79ec9dc735237f02facf" // Replace with your actual KOBIS API key
+
+    private fun setTextOrDefault(view: TextView, text: String?) {
+        // If the text is null or empty, retain the default text from the XML
+        view.text = text?.takeIf { it.isNotEmpty() } ?: view.text
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val title = intent.getStringExtra("title") ?: "Unknown Title"
-        val imageUrl = intent.getStringExtra("imageUrl") ?: ""
+        val movieCd = intent.getStringExtra("movieCd") ?: "Unknown Movie Code"
 
         // 툴바
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.title = title
+        supportActionBar?.title = "Movie Details"
 
-        // 채울 뷰
+        // 뷰
         val titleView: TextView = findViewById(R.id.movieTitle)
         val overview: TextView = findViewById(R.id.movieOverview)
         val poster: ImageView = findViewById(R.id.moviePoster)
@@ -45,25 +50,28 @@ class DetailActivity : AppCompatActivity() {
         val actorsView: TextView = findViewById(R.id.actors)
         val keywordsView: TextView = findViewById(R.id.keywords)
 
-        // Set initial data
-        titleView.text = title
-        Glide.with(this).load(imageUrl).into(poster)
-
-        // Fetch movie details from the KMDb API
+        // 코비스api
         lifecycleScope.launch {
-            val movieDetails = fetchMovieDetails(title)
+            val movieDetails = fetchMovieDetails(movieCd)
             movieDetails?.let {
                 withContext(Dispatchers.Main) {
-                    yearView.text = "출시: ${it.releaseYear}년"
-                    genreView.text = "장르: ${it.genre}"
-                    overview.text = it.plot
-                    distributorsView.text = it.company
-                    directorView.text = "감독: ${it.director}"
-                    actorsView.text = it.actor
-                    keywordsView.text = it.keyword
+                    setTextOrDefault(titleView, it.movieNm)
+                    yearView.text = "출시: ${it.openDt.substring(0, 4)}년"
+                    setTextOrDefault(genreView, it.genreAlt)
+                    setTextOrDefault(overview, it.synopsis)
+                    setTextOrDefault(distributorsView, it.companyAlt)
+                    setTextOrDefault(directorView, "감독: ${it.directorNm}")
+                    setTextOrDefault(actorsView, it.actorAlt)
+                    setTextOrDefault(keywordsView, it.keywords)
+
+                    Glide.with(this@DetailActivity)
+                        .load(it.posterUrl)
+                        .placeholder(R.drawable.ic_movie_placeholder)
+                        .into(poster)
                 }
             }
         }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -76,12 +84,11 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun fetchMovieDetails(title: String): MovieDetails? {
+    private suspend fun fetchMovieDetails(movieCd: String): MovieDetails? {
         return withContext(Dispatchers.IO) {
             try {
-                val encodedTitle = URLEncoder.encode(title, "UTF-8")
                 val url =
-                    URL("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=$apiKey&title=$encodedTitle")
+                    URL("https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=$apiKey&movieCd=$movieCd")
                 val connection = url.openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
                 connection.connect()
@@ -89,22 +96,40 @@ class DetailActivity : AppCompatActivity() {
                 if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                     val response = connection.inputStream.bufferedReader().use { it.readText() }
                     val jsonObject = JSONObject(response)
-                    val dataArray = jsonObject.getJSONArray("Data")
-                    if (dataArray.length() > 0) {
-                        val resultArray = dataArray.getJSONObject(0).getJSONArray("Result")
-                        if (resultArray.length() > 0) {
-                            val movieJson = resultArray.getJSONObject(0)
-                            return@withContext MovieDetails(
-                                releaseYear = movieJson.optString("releaseDts").take(4),
-                                genre = movieJson.optString("genre"),
-                                plot = movieJson.optString("plot"),
-                                company = movieJson.optString("company"),
-                                director = movieJson.optString("director"),
-                                actor = movieJson.optString("actor"),
-                                keyword = movieJson.optString("keyword")
-                            )
+                    val movieInfoResult = jsonObject.getJSONObject("movieInfoResult")
+                    val movieInfo = movieInfoResult.getJSONObject("movieInfo")
+                    val genres = movieInfo.getJSONArray("genres").let { array ->
+                        (0 until array.length()).joinToString(", ") { index ->
+                            array.getJSONObject(index).optString("genreNm")
                         }
                     }
+                    val companys = movieInfo.getJSONArray("companys").let { array ->
+                        (0 until array.length()).map { index ->
+                            array.getJSONObject(index).optString("companyNm").trim()
+                        }.filter { it.isNotEmpty() } // Remove blanks
+                            .distinct() // Remove duplicates
+                            .joinToString(", ") // Join with commas
+                    }
+
+
+
+
+                    return@withContext MovieDetails(
+                        movieNm = movieInfo.optString("movieNm"),
+                        openDt = movieInfo.optString("openDt"),
+                        genreAlt = genres,
+                        synopsis = movieInfo.optString("synopsis"),
+                        companyAlt = companys,
+                        directorNm = movieInfo.getJSONArray("directors").optJSONObject(0)
+                            ?.optString("peopleNm") ?: "Unknown Director",
+                        actorAlt = movieInfo.getJSONArray("actors").let { array ->
+                            (0 until array.length()).joinToString(", ") { index ->
+                                array.getJSONObject(index).optString("peopleNm")
+                            }
+                        },
+                        keywords = movieInfo.optString("typeNm"),
+                        posterUrl = "https://via.placeholder.com/150?text=${movieInfo.optString("movieNm")}"
+                    )
                 }
                 null
             } catch (e: Exception) {
@@ -115,12 +140,14 @@ class DetailActivity : AppCompatActivity() {
     }
 
     data class MovieDetails(
-        val releaseYear: String,
-        val genre: String,
-        val plot: String,
-        val company: String,
-        val director: String,
-        val actor: String,
-        val keyword: String
+        val movieNm: String,
+        val openDt: String,
+        val genreAlt: String?,
+        val synopsis: String?,
+        val companyAlt: String?,
+        val directorNm: String,
+        val actorAlt: String,
+        val keywords: String?,
+        val posterUrl: String
     )
 }
