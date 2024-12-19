@@ -44,7 +44,7 @@
                 android:layout_toEndOf="@id/moviePoster"
                 android:layout_marginStart="16dp"
                 android:layout_alignTop="@id/moviePoster"
-                android:text="Escape from Tarkov. Raid"
+                android:text="movie title placeholder"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black" />
@@ -57,7 +57,7 @@
                 android:layout_below="@id/movieTitle"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="출시: 2024"
+                android:text="출시: 출시연도"
                 android:textSize="16sp"
                  />
 
@@ -69,7 +69,7 @@
                 android:layout_below="@id/movieYear"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="장르: 액션, 어드벤처"
+                android:text="장르: 영화 장르"
                 android:textSize="16sp"
                 />
         </RelativeLayout>
@@ -88,7 +88,7 @@
             android:id="@+id/movieOverview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Russian action film based on the play Escape from Tarkov. The story deals with the struggle of private military companies on the territory of the city of Tarkov."
+            android:text="영화 줄거리에 대한 간략한 설명"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:lineSpacingExtra="4dp" />
@@ -107,7 +107,7 @@
             android:id="@+id/movieDistributors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Distributed by: Warner Bros., Universal Pictures"
+            android:text="제작회사명"
             android:textSize="16sp"
             android:textColor="@color/black" />
 
