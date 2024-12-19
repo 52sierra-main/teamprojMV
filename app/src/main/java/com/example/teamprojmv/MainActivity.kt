@@ -9,8 +9,14 @@ import android.widget.CalendarView
 import android.widget.GridView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.teamprojmv.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.*
+import kotlin.collections.mutableListOf
 
 class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -20,8 +26,13 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val apiKey = "62b5b6731f5435fee627106b33ee37bc"
+        val yesterday = getYesterdayDate()
+
         val dayTime = LocalDate.now()
         val dayWithCulture = getDayWithCulture(dayTime)
+
+        // CalendarView 설정
         binding.calendar.minDate = dayTime.toEpochDay() * 86400000
         binding.calendar.maxDate = dayWithCulture.toEpochDay() * 86400000
         binding.calendar.date = dayWithCulture.toEpochDay() * 86400000
@@ -32,6 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // 남은 날짜 계산
         val restDay = dayWithCulture.dayOfYear - dayTime.dayOfYear
         binding.dayText.text = "D - ${restDay}"
         binding.dayDescriptionText.text = "문화가 있는 날까지 \n ${restDay}일 남았습니다."
@@ -39,29 +51,47 @@ class MainActivity : AppCompatActivity() {
         binding.currentDateTime.text = "${dayTime.year}년 ${dayTime.monthValue}월 ${dayTime.dayOfMonth}일"
         Log.d("calendar", "${binding.calendar.date}")
 
-        //그리드뷰 채우기
-        val movieGridView: GridView = binding.gridView
-        val items = generateItemList(20) // Generate a list of 20 movies
-        val adapter = MyAdapter(this, items)
-        movieGridView.adapter = adapter
+        // 영화 데이터 가져오기
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitInstance.api.getDailyBoxOffice(apiKey, yesterday)
+                val movies = response.boxOfficeResult.dailyBoxOfficeList
+                Log.d("BoxOffice", "Movies Loaded: ${movies.size}")
 
-        //그리드 클릭 리스너
-        movieGridView.setOnItemClickListener { _, _, position, _ ->
-            val selectedItem = items[position]
-            val intent = Intent(this, DetailActivity::class.java).apply {
-                putExtra("title", selectedItem.title)
-                putExtra("imageUrl", selectedItem.imageUrl)
+                val items = movies.map { movie ->
+                    GridItem(movie.movieNm, "https://via.placeholder.com/150?text=${movie.movieNm}")
+                }
+
+                // GridView 채우기
+                val movieGridView: GridView = binding.gridView
+                val adapter = MyAdapter(this@MainActivity, items)
+                movieGridView.adapter = adapter
+
+                // GridView 클릭 리스너
+                movieGridView.setOnItemClickListener { _, _, position, _ ->
+                    val selectedItem = items[position]
+                    val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
+                        putExtra("title", selectedItem.title)
+                        putExtra("imageUrl", selectedItem.imageUrl)
+                    }
+                    startActivity(intent)
+                }
+            } catch (e: HttpException) {
+                Log.e("BoxOffice", "HTTP Error: ${e.message}")
+            } catch (e: Exception) {
+                Log.e("BoxOffice", "Error: ${e.message}")
             }
-            startActivity(intent)
         }
+
+
+
     }
-    //옆 파일에서 가져온 생성기
-    private fun generateItemList(count: Int): List<GridItem> {
-        val itemList = mutableListOf<GridItem>()
-        for (i in 1..count) {
-            itemList.add(GridItem("Title $i", "https://via.placeholder.com/150?text=Image+$i"))
-        }
-        return itemList
+    // 어제 날짜 가져오기
+    private fun getYesterdayDate(): String {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, -1)
+        val dateFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
     }
 }
 

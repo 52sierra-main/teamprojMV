@@ -18,7 +18,7 @@ import java.net.URLEncoder
 
 class DetailActivity : AppCompatActivity() {
 
-    private val apiKey = "YOUR_API_KEY" // 더미
+    private val apiKey = "62b5b6731f5435fee627106b33ee37bc" // 더미
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
