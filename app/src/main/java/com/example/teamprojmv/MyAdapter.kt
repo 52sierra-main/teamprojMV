@@ -29,7 +29,9 @@ class MyAdapter(private val context: Context, private val items: List<GridItem>)
 
         titleTextView.text = gridItem.title
         Glide.with(context)
-            .load(gridItem.imageUrl.toUri())
+            .load(gridItem.imageUrl) // 이미지 URL
+            .placeholder(R.drawable.ic_movie_placeholder) // 로딩 중 기본 이미지
+            .error(R.drawable.ic_movie_placeholder) // 로드 실패 시 기본 이미지
             .into(imageView)
 
         return view
